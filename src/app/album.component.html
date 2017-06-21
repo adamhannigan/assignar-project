@@ -1,1 +1,10 @@
 <h1>Album</h1>
+<div class="container">
+	<div class="row">
+		<img *ngFor="let url of imageUrls" 
+			src="{{url}}" 
+			class="col-md-3 gallery-image"
+			(click)="selectImage($event)"/>
+	</div>
+</div>
+<pagination (onPageChange)="pageChanged($event)"></pagination>

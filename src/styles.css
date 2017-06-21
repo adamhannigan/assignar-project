@@ -1,1 +1,11 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+.gallery-image{
+	height:30%;
+	padding:5px;
+}
+
+.gallery-image:hover{
+	cursor: pointer;
+	box-shadow: 1px 1px 1px 1px black;
+}
