@@ -4,6 +4,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 
+import { ImgurImage } from './imgur-image';
+
 @Injectable()
 export class ImgurService {
 
@@ -11,6 +13,7 @@ export class ImgurService {
 	private clientId = '5d9313d508a01da';
 	private gallery = 'aww';
 
+	//cache image urls so don't reload on page changes
 	private imageUrls = [];
 
 	constructor (private http: Http) {}
@@ -19,7 +22,6 @@ export class ImgurService {
 
 		return new Observable(observable => {
 
-			console.log(page*limit + " : " + this.imageUrls.length);
 			//Check if we already have paged amount of images
 			if(page*limit < this.imageUrls.length){
 
@@ -70,6 +72,21 @@ export class ImgurService {
 
 	}
 
+	uploadImage(img: ImgurImage): Observable<any[]>{
+
+		let url = this.apiBaseUrl + "image";
+		let options = this.getAuthenticationOptions();
+
+		return this.http.post(url, img, options)
+	                .map( res => {
+
+	                	//Remove file extension so link is accessible
+	                	return res.json().data.link.slice(0, -4);
+
+	                })
+	                .catch(this.handleError);
+	}
+
 	private getAuthenticationOptions(): any{
 		let headers = new Headers({ 'authorization': 'Client-ID ' + this.clientId });
         return new RequestOptions({ headers: headers });
@@ -92,7 +109,7 @@ export class ImgurService {
 
 	  }
 
-	  console.error(errMsg);
+	  //console.error(errMsg);
 	  return Observable.throw(errMsg);
 	}
 }

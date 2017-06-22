@@ -9,3 +9,61 @@
 	cursor: pointer;
 	box-shadow: 1px 1px 1px 1px black;
 }
+
+.selected{
+	box-shadow: 1px 1px 1px 1px black;
+}
+
+#modal-overlay{
+	position: fixed;
+    left: 0;
+    top: 0right;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #464646;
+    opacity: 0.6;
+}
+
+#upload-modal{
+	position: fixed;
+    top: 100px;
+    background: white;
+    z-index: 9;
+    width: 33%;
+    height: 200px;
+    left:33%;
+}
+
+#upload-modal input{
+	display:block;
+	margin:10px;
+}
+
+#upload-modal button{
+	margin:10px;
+}
+
+#modal-close{
+	position: absolute;
+    right: 0;
+    top: -42px;
+    font-size: 27px;
+    font-weight: bold;
+    color: white;
+}
+
+#modal-close:hover{
+	color:grey;
+	cursor:pointer;
+}
+
+#mosaic-holder{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:50px;
+}
+
+#mosaic-image{
+	max-width:40%;
+}

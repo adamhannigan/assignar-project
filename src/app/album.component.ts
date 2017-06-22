@@ -13,6 +13,8 @@ export class AlbumComponent {
 
   imageUrls = [];
 
+  selected = '';
+
   constructor(private imgurService: ImgurService, private router: Router, private mosaicService: MosaicService){}
 
   ngOnInit(){
@@ -25,7 +27,6 @@ export class AlbumComponent {
   	this.imgurService.getImages(page)
   		.subscribe(
   			res => {
-  				console.log("Got it: " + JSON.stringify(res));
           this.imageUrls = res;
   			},
   			err => {
@@ -35,9 +36,9 @@ export class AlbumComponent {
 
   pageChanged(page: number){
 
-    console.log("CHANGE: " + JSON.stringify(page));
     //since paging starts at 0
     let imagePage = page - 1;
+    this.selected = '';
    
     this.loadImages(imagePage);
   }
@@ -45,7 +46,21 @@ export class AlbumComponent {
   selectImage(url){
     
     this.mosaicService.selectImageUrl(url);
+    this.selected = url;
+  }
 
+  imageUploaded(event){
+    this.selected = event.src;
+    this.mosaicService.selectImageData(event.src);
+  }
+
+  imageRemove(event){
+    this.selected = '';
+  }
+
+  createMosaic(){
     this.router.navigate(['/mosaic']);
   }
+
+
 }

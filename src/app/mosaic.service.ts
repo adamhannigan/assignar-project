@@ -9,31 +9,71 @@ export class MosaicService {
 
 	imageUrl = '';
 
+	img = '';
+
 	imageProcessedSource = new Subject<any>();
 	imageProcessed$ = this.imageProcessedSource.asObservable();
 
 	selectImageUrl(url){
+
 		this.imageUrl = url;
 
-		/*
-		let image = document.createElement('img');
-		image.src = url;
+		//transform url into image
+		this.toDataURL(url, data => {
 
-		let canvas = document.createElement('canvas');
-		let ctx = canvas.getContext("2d");
-    	ctx.drawImage(image,10,10);
-    	*/
+			this.img = data;
 
-		let wassup = '<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /</svg>';
-		//alert all components using this image that it has been updated
-		this.imageProcessedSource.next(wassup)
+			//alert all components using this image that it has been updated
+			this.imageProcessedSource.next(this.img);
+
+		}, "image/png");
+
+	}
+
+	getImageData(){
+		return this.img;
+	}
+
+	selectImageData(imgData){
+		this.img = imgData;
+		this.imageProcessedSource.next(this.img);
 	}
 
 	watchForChanges(): Observable<any>{
 		return this.imageProcessed$;
 	}
 
-	processImage(){
-		console.log("Lets process");
+	//https://stackoverflow.com/questions/22172604/convert-image-url-to-base64
+	getBase64Image(imgUrl) {
+      var img = new Image();
+	  img.src = imgUrl;
+	  var canvas = document.createElement("canvas");
+	  canvas.width = img.width;
+	  canvas.height = img.height;
+	  var ctx = canvas.getContext("2d");
+	  ctx.drawImage(img, 0, 0);
+	  var dataURL = canvas.toDataURL("image/png");
+	  return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+	}
+
+	
+	toDataURL(src, callback, outputFormat) {
+	  var img = new Image();
+	  img.crossOrigin = 'Anonymous';
+	  img.onload = function() {
+	    var canvas : any = document.createElement('CANVAS');
+	    var ctx = canvas.getContext('2d');
+	    var dataURL;
+	    canvas.height = img.height;
+	    canvas.width = img.width;
+	    ctx.drawImage(this, 0, 0);
+	    dataURL = canvas.toDataURL(outputFormat);
+	    callback(dataURL);
+	  };
+	  img.src = src;
+	  if (img.complete || img.complete === undefined) {
+	    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+	    img.src = src;
+	  }
 	}
 }

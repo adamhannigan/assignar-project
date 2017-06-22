@@ -7,54 +7,30 @@ import { MosaicService } from './mosaic.service';
 })
 export class MosaicComponent {
 
-	@ViewChild("mosaicCanvas") mosaicCanvas: ElementRef; 
-	private canvas: any;
+	//@ViewChild("mosaicCanvas") mosaicCanvas: ElementRef; 
+	//private canvas: any;
+
+	imgSrc = "";
 
 	context:CanvasRenderingContext2D;
+
+	showUpload = false;
 
 	constructor(private mosaicService: MosaicService, private applicationRef: ApplicationRef){}
 
 	ngAfterViewInit() {
-        this.canvas = this.mosaicCanvas.nativeElement;
-		this.context = this.canvas.getContext("2d");
+        //this.canvas = this.mosaicCanvas.nativeElement;
+		//this.context = this.canvas.getContext("2d");
 
     }
 
 	ngOnInit(){
 
+		this.imgSrc = this.mosaicService.getImageData();
 
-		//watch for changes to image
-		this.mosaicService.watchForChanges().subscribe(
-			imageData => {
+	}
 
-				this.context.beginPath();
-				this.context.arc(100, 75, 50, 0, 2 * Math.PI);
-				this.context.stroke();
-
-				this.applicationRef.tick()
-				/*
-				let windowHere : any = window;
-				var DOMURL = windowHere.URL || windowHere.webkitURL || windowHere;
-
-				var img = new Image();
-				var svg = new Blob([imageData], {type: 'image/svg+xml'});
-				var url = DOMURL.createObjectURL(svg);
-
-				img.onload = function() {
-					console.log("1");
-				    ctx.drawImage(img, 0, 0);
-				    DOMURL.revokeObjectURL(url);
-					console.log("2");
-				}
-
-				img.src = url;
-
-				console.log("Made image: " + img.src);
-				this.mosaicCanvas.nativeElement.appendChild(img);
-				console.log("We did");
-				*/
-
-			});
-
+	uploadClose(){
+		this.showUpload = false;
 	}
 }

@@ -1,0 +1,15 @@
+<div id="upload-modal">
+	<form (ngSubmit)="onSubmit()" #emailForm="ngForm">
+
+	<input placeholder="Title" [(ngModel)]="model.title" name="title">
+
+	<input placeholder="Description" [(ngModel)]="model.description" name="description">
+
+	<button type="submit" [disabled]="uploading">Upload</button>
+
+ </form>
+ <span id="modal-close" (click)="close()">x</span>
+ <a href="{{link}}" [hidden]="!link">Go to image</a>
+ <span [hidden]="!loading">Loading...</span>
+</div>
+<div id="modal-overlay"></div>
