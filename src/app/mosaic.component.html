@@ -1,8 +1,9 @@
 <h1>Mosaic</h1>
 
+<button (click)="showUpload = true">Upload to Imgur</button>
+
 <div id="mosaic-holder">
-<img src="{{imgSrc}}" id="mosaic-image"/>
+	<img src="{{imgSrc}}" id="mosaic-image"/>
 </div>
 
-<button (click)="showUpload = true">Upload to Imgur</button>
 <upload [hidden]="!showUpload" (onClose)="uploadClose()"></upload>

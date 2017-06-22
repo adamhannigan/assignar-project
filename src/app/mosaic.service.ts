@@ -14,12 +14,13 @@ export class MosaicService {
 	imageProcessedSource = new Subject<any>();
 	imageProcessed$ = this.imageProcessedSource.asObservable();
 
+	//Loads image url and processes into mosaic
 	selectImageUrl(url){
 
 		this.imageUrl = url;
 
-		//transform url into image
-		this.toDataURL(url, data => {
+		//transform url/data into image
+		this.toMosaic(url, data => {
 
 			this.img = data;
 
@@ -34,41 +35,63 @@ export class MosaicService {
 		return this.img;
 	}
 
-	selectImageData(imgData){
-		this.img = imgData;
-		this.imageProcessedSource.next(this.img);
-	}
-
+	//Used for components watching for changes on mosaic 
 	watchForChanges(): Observable<any>{
 		return this.imageProcessed$;
 	}
-
-	//https://stackoverflow.com/questions/22172604/convert-image-url-to-base64
-	getBase64Image(imgUrl) {
-      var img = new Image();
-	  img.src = imgUrl;
-	  var canvas = document.createElement("canvas");
-	  canvas.width = img.width;
-	  canvas.height = img.height;
-	  var ctx = canvas.getContext("2d");
-	  ctx.drawImage(img, 0, 0);
-	  var dataURL = canvas.toDataURL("image/png");
-	  return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-	}
-
 	
-	toDataURL(src, callback, outputFormat) {
+	//converts image into mosaic
+	toMosaic(src, callback, outputFormat) {
 	  var img = new Image();
 	  img.crossOrigin = 'Anonymous';
 	  img.onload = function() {
+
+	  	//load image into canvas so we can read the data
 	    var canvas : any = document.createElement('CANVAS');
 	    var ctx = canvas.getContext('2d');
 	    var dataURL;
 	    canvas.height = img.height;
 	    canvas.width = img.width;
 	    ctx.drawImage(this, 0, 0);
-	    dataURL = canvas.toDataURL(outputFormat);
+
+	    //create canvas to draw to
+	    var mosaicCanvas : any = document.createElement('CANVAS');
+	    var mosaicContext = mosaicCanvas.getContext('2d');
+	    mosaicCanvas.width = img.width;
+	    mosaicCanvas.height = img.height;
+
+	    var imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
+		var data = imgData.data;
+
+		let tileSize = 16;
+
+		//loop through row 64 pixels at time and get columns 64 pixels
+		for(let pixelBlock = tileSize/2; pixelBlock < canvas.width; pixelBlock += tileSize)
+		{
+			//Go through each column 64 blocks at a time
+			for(let columnBlock = tileSize/2; columnBlock < canvas.height; columnBlock += tileSize)
+			{
+
+				//get color in middle of square - should be averaging but takes to long on large images
+				let index = (pixelBlock + (columnBlock * imgData.width)) * 4;
+				let red = data[index];
+				let green = data[index + 1];
+				let blue = data[index + 2];
+
+				mosaicContext.beginPath();
+
+				//draw circle and fill with middle color
+				mosaicContext.arc( columnBlock, pixelBlock, tileSize/2,0,2*Math.PI);
+				mosaicContext.fillStyle = "rgb(" + red + "," + green + "," + blue + ")";
+				mosaicContext.fill();
+
+			}
+		}
+
+	    dataURL = mosaicCanvas.toDataURL(outputFormat);
+
 	    callback(dataURL);
+
 	  };
 	  img.src = src;
 	  if (img.complete || img.complete === undefined) {

@@ -22,15 +22,15 @@ export class AlbumComponent {
   }
 
   loadImages(page){
-    console.log("COM LOAD: " + page);
-  	//load them
+
+  	//load imgur urls
   	this.imgurService.getImages(page)
   		.subscribe(
   			res => {
           this.imageUrls = res;
   			},
   			err => {
-
+          //error logging
   			});
   }
 
@@ -47,17 +47,23 @@ export class AlbumComponent {
     
     this.mosaicService.selectImageUrl(url);
     this.selected = url;
+
   }
 
+  //Callback from image uploading component
   imageUploaded(event){
+
     this.selected = event.src;
-    this.mosaicService.selectImageData(event.src);
+    this.mosaicService.selectImageUrl(event.src);
+
   }
 
+  //Callback from image uploading component
   imageRemove(event){
     this.selected = '';
   }
 
+  //Navigate to mosaic
   createMosaic(){
     this.router.navigate(['/mosaic']);
   }

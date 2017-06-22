@@ -20,6 +20,7 @@ export class ImgurService {
 
 	getImages(page = 0, limit = 12): Observable<string[]>{
 
+		//Abstract so client doesn't know if we are externally retreiving more urls
 		return new Observable(observable => {
 
 			//Check if we already have paged amount of images

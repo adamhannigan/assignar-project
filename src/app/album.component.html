@@ -1,13 +1,17 @@
-<h1>Album</h1>
 
-<button routerLink="/mosaic" [disabled]="!selected">Create Mosaic</button>
+<div class="album-actions">
 
-<image-upload 
-	[max]="1" [buttonCaption]="'Upload Image'" 
-	[dropBoxMessage]="'Drop your image here!'"
-	(onFileUploadFinish)="imageUploaded($event)"
-	(onRemove)="imageRemoved($event)">
-</image-upload>
+	<button routerLink="/mosaic" id="mosaic-button" [disabled]="!selected">Create Mosaic</button>
+
+	<image-upload 
+		[max]="1" [buttonCaption]="'Upload Image'" 
+		[dropBoxMessage]="'Drop your image here!'"
+		(onFileUploadFinish)="imageUploaded($event)"
+		(onRemove)="imageRemoved($event)"
+		id="image-upload">
+	</image-upload>
+
+</div>
 
 <div class="container">
 	<div class="row">
@@ -19,4 +23,4 @@
 	</div>
 </div>
 
-<pagination (onPageChange)="pageChanged($event)"></pagination>
+<pagination (onPageChange)="pageChanged($event)" id="pagination"></pagination>

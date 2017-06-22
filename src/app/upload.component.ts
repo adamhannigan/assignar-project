@@ -21,24 +21,12 @@ export class UploadComponent {
 
 	constructor(private mosaicService: MosaicService, private imgurService: ImgurService){}
 
-	ngAfterViewInit() {
-
-
-    }
-
-	ngOnInit(){
-  
-
-	}
-
 	close(){
-		console.log("Emit it");
 		this.onClose.emit();
 	}
 
 	onSubmit(){
 
-		console.log("SUBMITTED");
 		let imgData = this.mosaicService.getImageData().substring(22);
 		let imageModel = new ImgurImage(imgData, this.model.title, this.model.description);
 

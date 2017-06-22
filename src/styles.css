@@ -67,3 +67,30 @@
 #mosaic-image{
 	max-width:40%;
 }
+
+.image-upload{
+    width: 50%;
+    margin: 10px;
+    float:left;
+}
+
+.album-actions{
+	display:inline-block;
+	width:100%;
+}
+
+#mosaic-button{
+	margin: 33px;
+    float: right;
+}
+
+#pagination{
+	margin-left:auto;
+	margin-right:auto;
+    color: blue;
+    text-decoration: underline;
+    text-align: center;
+    display: block;
+    margin: 50px;
+    cursor:pointer;
+}

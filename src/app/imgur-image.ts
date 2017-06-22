@@ -1,3 +1,4 @@
+//Model for uploading to imgur
 export class ImgurImage{
 	
 	public type: string = "base64";
