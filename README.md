@@ -1,28 +1,32 @@
 # Angular2Mosaic
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.1.
+## Run application
 
-## Development server
+-npm install
+-npm start (or ng serve if using angular cli)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Running unit tests
 
+First time using angular 2 unit testing - feedback greatly appreciated
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Challenges
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+Sorting large amounts of images from imgur API gallery - solution > caching leftover urls
+Creating mosaic - had to brush up on Canvas API
+Unit testing - first time writing unit tests for Angular 2 
 
-## Further help
+## Gaps in Solution
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+-You'll notice the mosaic is not perfect and I did not use a rounding algorithm. Did not want to spend a lot of time on this since I believed this was not the core component being tested
+-Unit testing > new to unit testing so still learning
+
+## Areas for improvement
+
+-If I had the time I would of moved the image processing/mosaic algorithm into a service worker. This would improve efficiency and free the UI.
+-Styling - did the very minimal to make it work - would use range of frameworks/styleguides if more time
+-Authorization > did not restrict any of the Angular routes 
+-Pagination > allowing for more than just previous & next
+-Unit testing
